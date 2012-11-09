@@ -15,20 +15,20 @@ get '/' do
 end
 
 def shoot(png_file)
-  `#{Sinatra::Application.environment == :production ? 'xvfb-run ' : ''}phantomjs #{JS_PATH} #{params[:url]} #{SAVE_DIR}#{png_file}`
+  `#{Sinatra::Application.environment == :production ? 'xvfb-run ' : ''}phantomjs #{JS_PATH} url=#{params[:url]} filename=#{SAVE_DIR}#{png_file} #{params[:clip] ? "clip=#{params[:clip]}" : ''}`
 end
 
 def resize(png_file)
-  if params[:width] && params[:height]
-    `convert #{SAVE_DIR}#{png_file} -resize #{params[:width]}x#{params[:height]} #{SAVE_DIR}#{png_file}`
-  elsif params[:width]
-    `convert #{SAVE_DIR}#{png_file} -resize #{params[:width]} #{SAVE_DIR}#{png_file}`
+  if params[:resizewidth] && params[:resizeheight]
+    `convert #{SAVE_DIR}#{png_file} -resize #{params[:resizewidth]}x#{params[:resizeheight]} #{SAVE_DIR}#{png_file}`
+  elsif params[:resizewidth]
+    `convert #{SAVE_DIR}#{png_file} -resize #{params[:resizewidth]} #{SAVE_DIR}#{png_file}`
   end
 end
 
 def upload(png_file)
   s3_config = YAML.load_file('s3.yml')
   AWS::S3::Base.establish_connection!(:access_key_id => s3_config['access_key_id'], :secret_access_key => s3_config['secret_access_key'])
-  AWS::S3::S3Object.store("screenshooter/#{png_file.gsub('__', '/')}", open("#{SAVE_DIR}#{png_file}"), s3_config['bucket'], :access => :public_read, 'Cache-Control' => "public, max-age=60")
+  AWS::S3::S3Object.store("screenshooter/#{png_file.gsub('__', '/')}", open("#{SAVE_DIR}#{png_file}"), s3_config['bucket'], :access => :public_read, 'Cache-Control' => (params[:cachetime] ? "public, max-age=#{params[:cachetime]}" : ''))
   "http://#{s3_config['bucket']}.s3.amazonaws.com/screenshooter/#{png_file.gsub('__', '/')}"
 end
