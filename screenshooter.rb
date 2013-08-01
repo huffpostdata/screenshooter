@@ -15,7 +15,7 @@ get '/' do
 end
 
 def shoot(png_file)
-  `#{Sinatra::Application.environment == :production ? 'xvfb-run ' : ''}phantomjs #{JS_PATH} url=='#{params[:url] + (params[:hb] || '')}' filename==#{SAVE_DIR}#{png_file} #{params[:clip] ? "clip==#{params[:clip]}" : ''}`
+  `phantomjs #{JS_PATH} url=='#{params[:url] + (params[:hb] || '')}' filename==#{SAVE_DIR}#{png_file} #{params[:clip] ? "clip==#{params[:clip]}" : ''}`
 end
 
 def resize(png_file)
