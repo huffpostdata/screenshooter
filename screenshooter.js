@@ -2,15 +2,15 @@ var system = require('system');
 var page, filename, renderFunction, url;
 
 if (system.args.length < 3) {
-  console.log('Usage: screenshoot.js url=http://www.google.com filename=/tmp/google.png [clip=0,0,200,100]');
+  console.log('Usage: screenshoot.js url==http://www.google.com filename==/tmp/google.png [clip==0,0,200,100]');
   phantom.exit();
 }
 
 page = new WebPage();
 
 for (var i = 1; i < system.args.length; i++) {
-  var k = system.args[i].split('=')[0];
-  var v = system.args[i].split('=')[1];
+  var k = system.args[i].split('==')[0];
+  var v = system.args[i].split('==')[1];
   switch(k) {
     case 'url':
       url = v;

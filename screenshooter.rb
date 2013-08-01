@@ -15,7 +15,7 @@ get '/' do
 end
 
 def shoot(png_file)
-  `#{Sinatra::Application.environment == :production ? 'xvfb-run ' : ''}phantomjs #{JS_PATH} url=#{params[:url]} filename=#{SAVE_DIR}#{png_file} #{params[:clip] ? "clip=#{params[:clip]}" : ''}`
+  `#{Sinatra::Application.environment == :production ? 'xvfb-run ' : ''}phantomjs #{JS_PATH} url=='#{params[:url] + (params[:hb] || '')}' filename==#{SAVE_DIR}#{png_file} #{params[:clip] ? "clip==#{params[:clip]}" : ''}`
 end
 
 def resize(png_file)
@@ -30,5 +30,6 @@ def upload(png_file)
   s3_config = YAML.load_file('s3.yml')
   AWS::S3::Base.establish_connection!(:access_key_id => s3_config['access_key_id'], :secret_access_key => s3_config['secret_access_key'])
   AWS::S3::S3Object.store("screenshooter/#{png_file.gsub('__', '/')}", open("#{SAVE_DIR}#{png_file}"), s3_config['bucket'], :access => :public_read, 'Cache-Control' => (params[:cachetime] ? "public, max-age=#{params[:cachetime]}" : ''))
-  "http://#{s3_config['bucket']}.s3.amazonaws.com/screenshooter/#{png_file.gsub('__', '/')}"
+  url = "http://#{s3_config['bucket']}.s3.amazonaws.com/screenshooter/#{png_file.gsub('__', '/')}"
+  params[:callback] ? "#{params[:callback]}('#{url}');" : url
 end
