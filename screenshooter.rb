@@ -39,7 +39,7 @@ def upload(png_file)
   AWS::S3::Base.establish_connection!(:access_key_id => settings.config['s3_access_key_id'], :secret_access_key => settings.config['s3_secret_access_key'])
 
   s3_files = [png_file.gsub('__', '/')]
-  s3_files << s3_files.first.gsub(".png", "-#{Time.now.strftime("%Y%m%d%H%M%S%L")}.png") if params[:timestamp] == 'true'
+  s3_files << s3_files.first.gsub(".png", "/#{Time.now.strftime("%Y%m%d%H%M%S%L")}.png") if params[:timestamp] == 'true'
   s3_files.each do |s3_file|
     AWS::S3::S3Object.store("screenshooter/#{s3_file}", open("#{SAVE_DIR}#{png_file}"), settings.config['s3_bucket'], :access => :public_read, 'Cache-Control' => (params[:cachetime] ? "public, max-age=#{params[:cachetime]}" : ''))
   end
