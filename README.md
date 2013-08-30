@@ -45,6 +45,9 @@ And the images show up at:
 - `hb`: Hashbang to add to the url.
   - example: `hb=#!smoothing=less`
 - `callback`: Wrap the response in the specified function name for use with jsonp.
+- `timestamp`: If set to `true`, a timestamp will be added to the s3 filename. Useful for maintaining historic
+   images of an url or generating unique image files. The base image (without the timestamp appended) will
+   always be the most recent screenshot.
 
 ## Domain Filtering
 
