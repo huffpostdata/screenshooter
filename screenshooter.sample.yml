@@ -1,0 +1,8 @@
+s3_access_key_id: <access_key>
+s3_secret_access_key: <secret_key>
+s3_bucket: <bucket>
+
+domains:
+  - .*               # Matches all domains
+  - ^www.sample.com$ # Matches only www.sample.com
+  - sample.com$      # Matches sample.com and all subdomains

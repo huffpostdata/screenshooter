@@ -4,7 +4,7 @@
 
 # Screenshooter
 
-A little web service that takes the URL of a web page and returns a URL to an 
+A little web service that takes the URL of a web page and returns a URL to an
 image of that page.
 
 We use this to create PNGs of SVGs served by our Rails apps and to make
@@ -18,7 +18,7 @@ up-to-date images of Raphael graphics for sharing on Facebook and Twitter.
 
 ## Getting Started
 
-Create <code>s3.yml</code> from <code>s3.sample.yml</code> and add your S3 
+Create <code>screenshooter.yml</code> from <code>screenshooter.sample.yml</code> and add your S3
 credentials.
 
 
@@ -31,7 +31,7 @@ From any machine, shoot a URL:
 
     curl "http://localhost:4567/?url=http://tycho.usno.navy.mil/cgi-bin/timer.pl"
     curl "http://localhost:4567/?url=http://raphaeljs.com/tiger.html&width=200&height=200"
-    
+
 And the images show up at:
 
  * [http://bucketname.s3.amazonaws.com/screenshooter/tycho.usno.navy.mil/cgi-bin/timer.pl.png](http://assets.elections.huffingtonpost.com.s3.amazonaws.com/ss/tycho.usno.navy.mil/cgi-bin/timer.pl.png)
