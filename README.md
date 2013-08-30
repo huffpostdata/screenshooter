@@ -49,6 +49,8 @@ And the images show up at:
   be uploaded to s3 (in addition to a version without the timestamp). Useful for maintaining historic
   images of an url or generating unique image files. The base image (without the timestamp appended) will
   always be the most recent screenshot.
+- `cachetime`: Adds a Cache-Control header to the uploaded s3 file.
+  - example: `cachetime=600` adds `Cache-Control: public, max-age=600` to the uploaded s3 file
 
 ## Domain Filtering
 
