@@ -21,7 +21,9 @@ get '/' do
 end
 
 def shoot(png_file)
-  `phantomjs #{JS_PATH} url=='#{params[:url] + (params[:hb] || '')}' filename==#{SAVE_DIR}#{png_file} #{params[:clip] ? "clip==#{params[:clip]}" : ''}`
+  url = params[:url] + (params[:hb] || '')
+  clip = params[:clip] ? "clip==#{params[:clip]}" : ''
+  `phantomjs #{JS_PATH} url=='#{url}' filename==#{SAVE_DIR}#{png_file} #{clip}`
 end
 
 def resize(png_file)
